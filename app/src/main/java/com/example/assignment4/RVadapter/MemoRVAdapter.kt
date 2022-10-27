@@ -8,7 +8,7 @@ import com.example.assignment4.databinding.ItemMemoBinding
 
 class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter<MemoRVAdapter.MemoViewHolder>() {
     //ViewHolder 객체
-    inner class MemoViewHolder (private val binding:ItemMemoBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MemoViewHolder (private val binding: ItemMemoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Memo)
         {
             with(binding)
@@ -23,6 +23,7 @@ class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter
                 }
                 tvDay.text=data.day
             }
+
         }
     }
 
@@ -35,7 +36,13 @@ class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter
     //ViewHolder가 실제로 데이터를 표시해야 할 때 호출되는 함수
     override fun onBindViewHolder(holder: MemoViewHolder, position: Int) {
         holder.bind(dataList[position])
+
+        holder.itemView.setOnClickListener {
+            dataList.remove(dataList[position])
+            notifyDataSetChanged()
+        }
     }
+
 
     //표현할 Item 총 개수
     override fun getItemCount(): Int {
