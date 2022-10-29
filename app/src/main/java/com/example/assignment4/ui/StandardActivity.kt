@@ -1,18 +1,12 @@
-package com.example.assignment4.UI
+package com.example.assignment4.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.assignment4.RVadapter.MemoRVAdapter
-import com.example.assignment4.RVadapter.StandardRVAdapter
-import com.example.assignment4.data.Memo
+import com.example.assignment4.adapter.StandardRVAdapter
 import com.example.assignment4.data.Standard
 import com.example.assignment4.data.checkedStatus
 import com.example.assignment4.databinding.ActivityStandardBinding
-import com.example.assignment4.memo.MemoActivity
 
 class StandardActivity : AppCompatActivity() {
     private lateinit var binding : ActivityStandardBinding

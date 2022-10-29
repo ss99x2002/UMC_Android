@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.assignment4.RVadapter.MemoRVAdapter
+import com.example.assignment4.adapter.MemoRVAdapter
 import com.example.assignment4.data.Memo
 import com.example.assignment4.databinding.ActivityMemoListBinding
 

@@ -1,4 +1,4 @@
-package com.example.assignment4.RVadapter
+package com.example.assignment4.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

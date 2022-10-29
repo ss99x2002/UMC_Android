@@ -1,10 +1,8 @@
-package com.example.assignment4.RVadapter
+package com.example.assignment4.adapter
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.assignment4.data.Memo
 import com.example.assignment4.data.Standard
 import com.example.assignment4.data.checkedStatus
 import com.example.assignment4.databinding.ItemMemoBinding
