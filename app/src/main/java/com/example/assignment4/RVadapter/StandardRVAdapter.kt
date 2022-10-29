@@ -19,12 +19,12 @@ class StandardRVAdapter(private val dataList :ArrayList<Standard>,private val ch
             tvTitle.text = data.title
                 tvContent.text = data.note
                 tvDay.text = data.day
-                sw.isChecked = status.isChecked
-
-                sw.setOnClickListener {
-                    status.isChecked = sw.isChecked
-                    notifyItemChanged(adapterPosition)
-                }
+//                sw.isChecked = status.isChecked
+//
+//                sw.setOnClickListener {
+//                    status.isChecked = sw.isChecked
+//                    notifyItemChanged(adapterPosition)
+//                }
             }
         }
     }

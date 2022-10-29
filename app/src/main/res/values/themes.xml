@@ -24,6 +24,13 @@
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name ="postSplashScreenTheme">@style/Theme.Assignment4</item>
     </style>
+
+    <style name="DatePickerTheme" parent ="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlActivated">@color/light_grey</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="Theme.Assignment4.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Assignment4.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
