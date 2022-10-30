@@ -4,13 +4,14 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import com.example.assignment4.R
 
-class CustomDialog(context: Context,text:String,width:Int = WindowManager.LayoutParams.WRAP_CONTENT, height:Int = WindowManager.LayoutParams.WRAP_CONTENT):Dialog(context) {
-    private var listener: DialogClickListener? = null
+class CustomDialog(context: Context,text:String,width:Int = WindowManager.LayoutParams.MATCH_PARENT, height:Int = WindowManager.LayoutParams.WRAP_CONTENT):Dialog(context) {
+    private lateinit var listener: DialogClickListener
     private var isClickConfirm:Boolean = false
 
     init{
@@ -19,10 +20,6 @@ class CustomDialog(context: Context,text:String,width:Int = WindowManager.Layout
         findViewById<TextView>(R.id.tv_dialog_title).text = text
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) //바깥 투명하게인듯
         window?.setLayout(width,height)
-
-        setOnDismissListener {
-            if (!isClickConfirm) listener?.onClose()
-        }
     }
 
     interface DialogClickListener{
@@ -30,18 +27,20 @@ class CustomDialog(context: Context,text:String,width:Int = WindowManager.Layout
         fun onConfirm()
     }
 
-    fun setClickListener(listener : DialogClickListener)
+    fun setClickListener(listener_ : DialogClickListener)
     {
-        this.listener = listener
+        this.listener = listener_
     }
 
     fun onClose()
     {
+        Log.e("dialog 함수","onClose 들어옴")
         dismiss()
     }
 
     fun onConfirm()
     {
+        Log.e("dialog 함수","onConfirm 들어옴")
         isClickConfirm = true
         dismiss()
         listener?.onConfirm()

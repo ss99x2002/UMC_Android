@@ -19,7 +19,6 @@ class MemoListActivity : AppCompatActivity() {
     private val dataList: ArrayList<Memo> = arrayListOf()
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
         binding = ActivityMemoListBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
