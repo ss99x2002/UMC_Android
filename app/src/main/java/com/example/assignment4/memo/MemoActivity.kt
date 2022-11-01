@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -20,23 +22,34 @@ import java.util.*
 
 class MemoActivity: AppCompatActivity() ,View.OnClickListener {
     private lateinit var binding: ActivityMemoBinding
+    private lateinit var getResultText: ActivityResultLauncher<Intent>
     private lateinit var textVar: Editable
     private lateinit var titleVar: Editable
     private lateinit var dlg: CustomDialog
+    private var MODIFY:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initView()
-    }
-
-    private fun initView() {
+        Log.e("summer","memo activity 시작")
         with(binding)
         {
-            tvDay.text = (LocalDate.now()).toString()
-        }
+                 if (intent.getStringExtra("intent")!=null) {
+                        Log.e("summer","modify 진입")
+                        etTitle.setText(intent.getStringExtra("title"))
+                        etMemo.setText(intent.getStringExtra("note"))
+                        tvDay.text = LocalDate.now().toString()
+                        MODIFY=1
+                    }
+                 else {
+                        tvDay.text = LocalDate.now().toString()
+                        etTitle.text.clear()
+                        etMemo.text.clear()
+                    }
+            }
     }
+
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -58,10 +71,10 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
         Log.e("summer","onStop")
         with(binding)
         {
-            titleVar = etTitle.text
-            textVar = etMemo.text
             etMemo.text.clear()
             etTitle.text.clear()
+            titleVar = etTitle.text
+            textVar = etMemo.text
         }
     }
 
@@ -133,6 +146,7 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                             Log.e("summer", "save dialog on Confirm으로 들어옴")
                             val mIntent =
                                 Intent(this@MemoActivity, MemoListActivity::class.java).apply {
+                                    putExtra("modify",MODIFY)
                                     putExtra("title", "${etTitle.text}")
                                     putExtra("note", "${etMemo.text}")
                                     putExtra("day", "${tvDay.text}")
