@@ -13,4 +13,5 @@
     <string name="day">날짜칸</string>
     <string name="edit_memo">memo</string>
     <string name="edit_title">Title</string>
+    <string name="palette_title">글자색을 선택하세요!</string>
 </resources>

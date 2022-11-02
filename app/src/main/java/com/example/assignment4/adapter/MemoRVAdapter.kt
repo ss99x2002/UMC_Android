@@ -1,13 +1,19 @@
 package com.example.assignment4.adapter
 
+import android.content.res.Resources
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.assignment4.R
 import com.example.assignment4.data.Memo
 import com.example.assignment4.databinding.ItemMemoBinding
+import kotlin.coroutines.coroutineContext
 
 class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter<MemoRVAdapter.MemoViewHolder>() {
 
@@ -18,6 +24,7 @@ class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter
             with(binding)
             {
                 tvTitle.text= data.title
+                tvTitle.setTextColor(Color.parseColor(data.color!!))
                 if (data.note!!.contains("\n"))
                 {
                     Log.e("줄바꿈 존재","true")
@@ -28,7 +35,6 @@ class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter
                     {
                         tvContent.text = data.note
                     }
-
                     else{
                         tvContent.text= data.note?.substring(0,15) + "…"
                     }
@@ -69,8 +75,7 @@ class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter
         }
     }
 
-
-    //표현할 Item 총 개수
+    //표현 할 Item 총 개수
     override fun getItemCount(): Int {
        return dataList.size
     }

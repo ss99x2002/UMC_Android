@@ -33,7 +33,6 @@ class CustomDialog(context: Context,view:View,text:String):Dialog(context) {
 
     override fun onStart() {
         super.onStart()
-
     }
     fun setClickListener(listener_ : DialogClickListener)
     {

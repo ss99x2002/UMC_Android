@@ -1,6 +1,7 @@
 package com.example.assignment4.memo
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -16,21 +17,22 @@ import androidx.databinding.DataBindingUtil
 import com.example.assignment4.R
 import com.example.assignment4.databinding.ActivityMemoBinding
 import com.example.assignment4.databinding.DialogConfirmBinding
+import com.example.assignment4.databinding.DialogPaletteBinding
 import com.example.assignment4.ui.dialog.CustomDialog
+import com.example.assignment4.ui.dialog.CustomPaletteDialog
 import java.time.LocalDate
 import java.util.*
 
 class MemoActivity: AppCompatActivity() ,View.OnClickListener {
     private lateinit var binding: ActivityMemoBinding
-    private lateinit var getResultText: ActivityResultLauncher<Intent>
     private lateinit var textVar: Editable
     private lateinit var titleVar: Editable
-    private lateinit var dlg: CustomDialog
     private var MODIFY:Int = 0
+    private var Color:String ="#FF000000"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMemoBinding.inflate(layoutInflater)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_memo)
         setContentView(binding.root)
         Log.e("summer","memo activity 시작")
         with(binding)
@@ -44,6 +46,7 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                     }
                  else {
                         tvDay.text = LocalDate.now().toString()
+                        etTitle.setTextColor(getColor(R.color.black))
                         etTitle.text.clear()
                         etMemo.text.clear()
                     }
@@ -52,15 +55,18 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
 
 
     override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.btn_save -> {
-                with(binding)
-                {
+        with(binding)
+        {
+            when (v?.id) {
+                R.id.btn_save -> {
                     if (etTitle.text.isEmpty()) {
                         Toast.makeText(this@MemoActivity, "제목을 입력하세요!", Toast.LENGTH_SHORT).show()
                     } else {
                         showSaveDialog()
                     }
+                }
+                R.id.btn_palette->{
+                    showPalette()
                 }
             }
         }
@@ -78,9 +84,7 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
         }
     }
 
-
     override fun onRestart() {
-        Log.e("summer","onRestart")
         super.onRestart()
         showDialog()
     }
@@ -88,6 +92,7 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
     private fun showDialog()
     {
         val dialog = AlertDialog.Builder(this)
+        Log.e("summer","dialog 내부")
         dialog.setTitle("메모")
             .setMessage("이어서 작성하시겠습니까?")
             .setPositiveButton("예") {dialog, which ->
@@ -131,7 +136,6 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
 
     private fun showSaveDialog() {
         Log.e("summer", "save dialog로 들어옴")
-
         with(binding)
         {
             DataBindingUtil.inflate<DialogConfirmBinding>(
@@ -150,6 +154,8 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                                     putExtra("title", "${etTitle.text}")
                                     putExtra("note", "${etMemo.text}")
                                     putExtra("day", "${tvDay.text}")
+                                    putExtra("color",Color)
+                                    Log.e("summer","${tvDay.text}")
                                 }
                             setResult(RESULT_OK, mIntent)
                             if (!isFinishing) finish()
@@ -163,5 +169,65 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                 }
             }
         }
+    }
+    private fun showPalette()
+    {
+        with(binding)
+        {
+            DataBindingUtil.inflate<DialogPaletteBinding>(
+                LayoutInflater.from(this@MemoActivity),
+                R.layout.dialog_palette,
+                null,
+                false
+            ).apply {
+                this.colorPick = CustomPaletteDialog(this@MemoActivity, root).apply{
+                    this.setClickListener(object : CustomPaletteDialog.DialogClickListener{
+                        override fun onClick(v:View?) {
+                            Log.e("summer","색상표입장")
+                            when(v?.id)
+                            {
+                                R.id.btn_black->{
+                                    Log.e("summer","black true")
+                                    etTitle.setTextColor(resources.getColor(R.color.black))
+                                    Color="#FF000000"
+
+                                }
+                                R.id.btn_navy->{
+                                    Log.e("summer","navy true")
+                                    etTitle.setTextColor(resources.getColor(R.color.navy))
+                                    Color="#0B22B7"
+                                }
+                                R.id.btn_blue->{
+                                    etTitle.setTextColor(resources.getColor(R.color.blue))
+                                }
+                                R.id.btn_skyBlue->{
+                                    etTitle.setTextColor(resources.getColor(R.color.sky_blue))
+                                }
+                                R.id.btn_purple->{
+                                    etTitle.setTextColor(resources.getColor(R.color.purple))
+                                }
+                                R.id.btn_lightPurple->{
+                                    etTitle.setTextColor(resources.getColor(R.color.light_purple))
+                                }
+                                R.id.btn_pink->{
+                                    etTitle.setTextColor(resources.getColor(R.color.pink))
+                                }
+                                R.id.btn_peach->{
+                                    etTitle.setTextColor(resources.getColor(R.color.peach))
+                                }
+                                R.id.btn_yellow->{
+                                    etTitle.setTextColor(resources.getColor(R.color.yellow))
+                                }
+                                R.id.btn_lightGreen->{
+                                    etTitle.setTextColor(resources.getColor(R.color.light_green))
+                                }
+                            }
+                        }
+                    })
+                    show()
+                }
+
+                }
+            }
     }
 }
