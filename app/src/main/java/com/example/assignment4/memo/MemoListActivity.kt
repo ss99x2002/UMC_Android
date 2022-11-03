@@ -122,6 +122,8 @@ class MemoListActivity : AppCompatActivity() {
             add(Memo("리눅스 과제","11월 13일까지 shell 만들기","2022.10.31","#FF000000"))
             add(Memo("비밀번호","1345","2022.11.01","#FF000000"))
         }
+        binding.tvTitle.setText("${Nickname.getNickName()}님의 메모")
     }
+
 
 }

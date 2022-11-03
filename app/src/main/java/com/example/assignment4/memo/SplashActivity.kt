@@ -13,7 +13,7 @@ class SplashActivity : AppCompatActivity() {
 
         val handler = Handler()
         handler.postDelayed({
-            val intent = Intent(applicationContext,MemoListActivity::class.java)
+            val intent = Intent(applicationContext,NicknameActivity::class.java)
             startActivity(intent)
             finish()
         },2000)
