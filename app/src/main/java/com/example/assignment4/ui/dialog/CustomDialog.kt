@@ -43,12 +43,12 @@ class CustomDialog(context: Context,view:View,text:String):Dialog(context) {
     {
         Log.e("dialog 함수","onClose 들어옴")
         dismiss()
+        listener?.onClose()
     }
 
     fun onConfirm()
     {
         Log.e("dialog 함수","onConfirm 들어옴")
-        isClickConfirm = true
         dismiss()
         listener?.onConfirm()
     }

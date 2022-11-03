@@ -106,6 +106,7 @@ class MemoListActivity : AppCompatActivity() {
             putExtra("title",dataList[position].title)
             putExtra("note",dataList[position].note)
             putExtra("day",dataList[position].day)
+            putExtra("color",dataList[position].color)
         }
         getResultText.launch(mIntent2)
     }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -28,12 +29,14 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
     private lateinit var textVar: Editable
     private lateinit var titleVar: Editable
     private var MODIFY:Int = 0
-    private var Color:String ="#FF000000"
+    private var colorString :String ="#FF000000"
+    private var colorInt : Int = Color.parseColor(colorString)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_memo)
         setContentView(binding.root)
+        onBackPressedDispatcher.addCallback(this,onBackInvokedCallback)
         Log.e("summer","memo activity 시작")
         with(binding)
         {
@@ -42,6 +45,7 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                         etTitle.setText(intent.getStringExtra("title"))
                         etMemo.setText(intent.getStringExtra("note"))
                         tvDay.text = LocalDate.now().toString()
+                        etTitle.setTextColor(Color.parseColor(intent.getStringExtra("color")))
                         MODIFY=1
                     }
                  else {
@@ -72,6 +76,13 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
         }
     }
 
+  private val onBackInvokedCallback = object: OnBackPressedCallback(true)
+  {
+      override fun handleOnBackPressed() {
+          showBackDialog()
+      }
+  }
+
     override fun onStop() {
         super.onStop()
         Log.e("summer","onStop")
@@ -82,11 +93,6 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
             titleVar = etTitle.text
             textVar = etMemo.text
         }
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        showDialog()
     }
 
     private fun showDialog()
@@ -114,17 +120,10 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                this.dialog = CustomDialog(this@MemoActivity,root,"이어서 작성하시겠습니까?").apply{
                    this.setClickListener(object : CustomDialog.DialogClickListener {
                        override fun onConfirm() {
-                           etMemo.text = textVar
-                           etTitle.text= titleVar
+
                        }
                        override fun onClose() {
-                           textVar.clear()
-                           titleVar.clear()
-                           with(binding)
-                           {
-                               etMemo.text.clear()
-                               etTitle.text.clear()
-                           }
+                          finish()
                        }
 
                    })
@@ -154,7 +153,7 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                                     putExtra("title", "${etTitle.text}")
                                     putExtra("note", "${etMemo.text}")
                                     putExtra("day", "${tvDay.text}")
-                                    putExtra("color",Color)
+                                    putExtra("color",colorString)
                                     Log.e("summer","${tvDay.text}")
                                 }
                             setResult(RESULT_OK, mIntent)
@@ -162,7 +161,7 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                         }
 
                         override fun onClose() {
-                            Log.e("summer", "save dialog on Close로 들어옴")
+                            Log.e("summer", "save dialog onClose로 들어옴")
                         }
                     })
                     show()
@@ -188,38 +187,46 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                             {
                                 R.id.btn_black->{
                                     Log.e("summer","black true")
-                                    etTitle.setTextColor(resources.getColor(R.color.black))
-                                    Color="#FF000000"
+                                    etTitle.setTextColor(getColor(R.color.black))
+                                    colorString="#FF000000"
 
                                 }
                                 R.id.btn_navy->{
                                     Log.e("summer","navy true")
-                                    etTitle.setTextColor(resources.getColor(R.color.navy))
-                                    Color="#0B22B7"
+                                    etTitle.setTextColor(getColor(R.color.navy))
+                                    colorString="#0B22B7"
                                 }
                                 R.id.btn_blue->{
-                                    etTitle.setTextColor(resources.getColor(R.color.blue))
+                                    etTitle.setTextColor(getColor(R.color.blue))
+                                    colorString="#0066FF"
                                 }
                                 R.id.btn_skyBlue->{
-                                    etTitle.setTextColor(resources.getColor(R.color.sky_blue))
+                                    etTitle.setTextColor(getColor(R.color.sky_blue))
+                                    colorString="#5ECFFF"
                                 }
                                 R.id.btn_purple->{
-                                    etTitle.setTextColor(resources.getColor(R.color.purple))
+                                    etTitle.setTextColor(getColor(R.color.purple))
+                                    colorString="#4A05EB"
                                 }
                                 R.id.btn_lightPurple->{
-                                    etTitle.setTextColor(resources.getColor(R.color.light_purple))
+                                    etTitle.setTextColor(getColor(R.color.light_purple))
+                                    colorString="#C495FF"
                                 }
                                 R.id.btn_pink->{
-                                    etTitle.setTextColor(resources.getColor(R.color.pink))
+                                    etTitle.setTextColor(getColor(R.color.pink))
+                                    colorString="#FD6ED2"
                                 }
                                 R.id.btn_peach->{
-                                    etTitle.setTextColor(resources.getColor(R.color.peach))
+                                    etTitle.setTextColor(getColor(R.color.peach))
+                                    colorString="#FF9797"
                                 }
                                 R.id.btn_yellow->{
-                                    etTitle.setTextColor(resources.getColor(R.color.yellow))
+                                    etTitle.setTextColor(getColor(R.color.yellow))
+                                    colorString="#FFDE00"
                                 }
                                 R.id.btn_lightGreen->{
-                                    etTitle.setTextColor(resources.getColor(R.color.light_green))
+                                    etTitle.setTextColor(getColor(R.color.light_green))
+                                    colorString="#A5FF55"
                                 }
                             }
                         }

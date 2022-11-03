@@ -91,34 +91,34 @@
                 android:layout_height="35dp"
                 android:layout_marginEnd="10dp"
                 app:backgroundTint="@color/light_purple"
-                android:onClick="onClick"/>
+                android:onClick="@{colorPick::onClick}"/>
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_pink"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginEnd="10dp"
                 app:backgroundTint="@color/pink"
-                android:onClick="onClick"/>
+                android:onClick="@{colorPick::onClick}"/>
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_peach"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginEnd="10dp"
                 app:backgroundTint="@color/peach"
-                android:onClick="onClick"/>
+                android:onClick="@{colorPick::onClick}"/>
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_yellow"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginEnd="10dp"
                 app:backgroundTint="@color/yellow"
-                android:onClick="onClick"/>
+                android:onClick="@{colorPick::onClick}"/>
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_lightGreen"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 app:backgroundTint="@color/light_green"
-                android:onClick="onClick"/>
+                android:onClick="@{colorPick::onClick}"/>
         </LinearLayout>
     </LinearLayout>
 </layout>
