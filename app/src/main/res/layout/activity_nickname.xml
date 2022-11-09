@@ -6,6 +6,9 @@
         <variable
             name="nickName"
             type="com.example.assignment4.memo.NicknameActivity" />
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener"/>
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

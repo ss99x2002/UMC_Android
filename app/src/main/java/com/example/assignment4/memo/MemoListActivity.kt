@@ -115,12 +115,14 @@ class MemoListActivity : AppCompatActivity() {
     {
         //더미 데이터 set
         dataList.apply{
-            add(Memo("UMC","INHA University umc활동","2022.10.21","#FF000000"))
-            add(Memo("시스템프로그래밍 시험","시험 2022.10.27","2022.10.25","#FF000000"))
+            add(Memo("토요일 UMC 세미나 듣기","INHA University umc활동","2022.10.21","#FF000000"))
+            add(Memo("시스템프로그래밍 시험","시험 2022.10.27 잊지말기","2022.10.25","#5ECFFF"))
             add(Memo("두부사기","","2022.10.27","#FF000000"))
+            add(Memo("대파사기","","2022.10.27","#FF000000"))
             add(Memo("선형대수 과제하기","11월 1일까지","2022.10.29","#FF000000"))
-            add(Memo("리눅스 과제","11월 13일까지 shell 만들기","2022.10.31","#FF000000"))
+            add(Memo("에세이 작성하기","11월 13일까지 shell 만들기","2022.10.31","#0B22B7"))
             add(Memo("비밀번호","1345","2022.11.01","#FF000000"))
+            add(Memo("11/15 예슬이랑 점심","서울역에서 만나기로 함","2022.11.05","#FF9797"))
         }
         binding.tvTitle.setText("${Nickname.getNickName()}님의 메모")
     }

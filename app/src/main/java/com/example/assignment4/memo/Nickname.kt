@@ -3,7 +3,7 @@ package com.example.assignment4.memo
 class Nickname {
 
     companion object{
-        var nickname=""
+        private var nickname=""
 
         fun getNickName() :String{
             return nickname
