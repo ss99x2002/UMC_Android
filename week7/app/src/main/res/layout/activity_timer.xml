@@ -6,7 +6,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".TimerActivity">
 
     <ImageView
         android:id="@+id/iv_timer"
@@ -135,6 +135,7 @@
                 android:id="@+id/progress_timer"
                 android:layout_width="280dp"
                 android:layout_height="280dp"
+                android:indeterminateOnly="false"
                 android:background="@drawable/progressbar_timer"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

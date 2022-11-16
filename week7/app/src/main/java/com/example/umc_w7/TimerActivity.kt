@@ -2,22 +2,24 @@ package com.example.umc_w7
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.media.SoundPool
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.NumberPicker
-import androidx.annotation.RequiresApi
 import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
-import com.example.umc_w7.databinding.ActivityMainBinding
+import com.example.umc_w7.databinding.ActivityTimerBinding
 import kotlin.concurrent.thread
 
-class MainActivity : AppCompatActivity(), View.OnClickListener{
+class TimerActivity : AppCompatActivity(), View.OnClickListener{
 
-    private lateinit var binding:ActivityMainBinding
+    private lateinit var binding:ActivityTimerBinding
     private var started = false
     private var total =0
+    private var percent =0
+    private lateinit var soundEnd:SoundPool
 
     val handler = object:Handler(Looper.getMainLooper())
     {
@@ -31,11 +33,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_timer)
 
         var pickedMin=binding.numberMin.value
         var pickedSec =binding.numberSec.value
         total = pickedMin*60+pickedSec
+
+        soundEnd = SoundPool.Builder().build()
+        var soundId : Int =0
+
+        soundId =soundEnd.load(this,R.raw.sound3,1)
 
         setNumberPicker()
         with(binding)
@@ -51,11 +58,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
                 started = true
                 toggleBtn(false)
 
-                progressTimer.max = total
-                progressTimer.progress = total
+                progressTimer.max =  pickedMin*60+pickedSec
 
                 thread(start=true) {
                     while(started) {
+                        progressTimer.progress = percent
                         if (total!=0) {
                             Log.e("summer","$total")
                             if (total < 5)
@@ -66,8 +73,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
                                 tvTime.setTextColor(Color.parseColor("#FF000000"))
                             }
                             total--
+                            percent++
                             handler?.sendEmptyMessage(0)
                             Thread.sleep(1000)
+                        }
+                        else
+                        {
+                            soundEnd.play(soundId,1.0f,1.0f,0,0,1.0f)
                         }
                     }
                 }
@@ -92,8 +104,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
             }
             R.id.btn_cancel_timer -> {
                 total=0
-                toggleView(false)
                 started = false
+                toggleView(false)
                 toggleBtn(true)
             }
         }
