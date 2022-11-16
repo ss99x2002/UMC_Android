@@ -1,10 +1,13 @@
 package com.example.umc_w7
 
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.os.*
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.NumberPicker
+import androidx.annotation.RequiresApi
 import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
 import com.example.umc_w7.databinding.ActivityMainBinding
@@ -13,70 +16,89 @@ import kotlin.concurrent.thread
 class MainActivity : AppCompatActivity(), View.OnClickListener{
 
     private lateinit var binding:ActivityMainBinding
-    private var btnFlag = 0
+    private var started = false
+    private var total =0
+
+    val handler = object:Handler(Looper.getMainLooper())
+    {
+        @SuppressLint("SetTextI18n")
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+
+            binding.tvTime.text = "${String.format("%02d",total/60)} : ${String.format("%02d",total%60)}"
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
 
-        val timerText= binding.tvTime
         var pickedMin=binding.numberMin.value
         var pickedSec =binding.numberSec.value
+        total = pickedMin*60+pickedSec
+
         setNumberPicker()
-        
         with(binding)
         {
             numberMin.setOnValueChangedListener(NumberPicker.OnValueChangeListener { numberPicker, old, new ->
                 pickedMin = new
-                timerText.text = setTime(pickedMin,pickedSec)
             })
             numberSec.setOnValueChangedListener(NumberPicker.OnValueChangeListener { numberPicker, old, new ->
                 pickedSec = new
-                timerText.text = setTime(pickedMin,pickedSec)
+                total = pickedMin*60+pickedSec
             })
+            btnStartTimer.setOnClickListener {
+                started = true
+                toggleBtn(false)
+
+                progressTimer.max = total
+                progressTimer.progress = total
+
+                thread(start=true) {
+                    while(started) {
+                        if (total!=0) {
+                            Log.e("summer","$total")
+                            if (total < 5)
+                            {
+                                tvTime.setTextColor(Color.parseColor("#FF0000"))
+                            }
+                            else {
+                                tvTime.setTextColor(Color.parseColor("#FF000000"))
+                            }
+                            total--
+                            handler?.sendEmptyMessage(0)
+                            Thread.sleep(1000)
+                        }
+                    }
+                }
+            }
+            btnStopTimer.setOnClickListener {
+                if (started) {
+                    started = false
+                    toggleBtn(true)
+                    Log.e("summer","$started")
+                }
+            }
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onClick(v: View?) {
         when(v?.id)
         {
             R.id.btn_picker_start-> {
-                binding.layoutTimepicker.isInvisible=true
-                binding.layoutTimer.visibility = View.VISIBLE
+                toggleView(true)
+                binding.tvTime.text = "${String.format("%02d",total/60)} : ${String.format("%02d",total%60)}"
             }
             R.id.btn_cancel_timer -> {
-                binding.layoutTimepicker.visibility = View.VISIBLE
-                binding.layoutTimer.isInvisible=true
+                total=0
+                toggleView(false)
+                started = false
+                toggleBtn(true)
             }
-
-            R.id.btn_start_timer -> {
-                btnFlag++
-                when(btnFlag)
-                {
-                    1 -> {
-                        binding.btnStartTimer.text = "정지"
-                        btnFlag++
-                        Log.e("summer","flag1 : ${btnFlag}")
-                    }
-                    2 -> {
-                        binding.btnStartTimer.text = "재개"
-                        btnFlag ++
-                        Log.e("summer","flag2 : ${btnFlag} ")
-                    }
-                   else -> {
-                       btnFlag = 0
-                       binding.btnStartTimer.text = "시작"
-                       Log.e("summer","flag else : ${btnFlag} ")
-                   }
-                }
-
-           }
         }
     }
 
-    private fun timer (flag : Int)
-    {
-
-    }
     private fun setNumberPicker()
     {
         with(binding)
@@ -94,23 +116,36 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
 
         }
     }
-    private fun setTime(min:Int, sec:Int) : String
+    private fun toggleView(flag : Boolean)
     {
-        if (min<10)
+        if (flag)
         {
-            return if (sec<10) {
-                "0${min} : 0${sec}"
-            } else {
-                "0${min} : $sec"
-            }
+            // 타이머창 보이게
+            binding.layoutTimepicker.isInvisible=true
+            binding.layoutTimer.visibility = View.VISIBLE
+            binding.tvTime.setTextColor(Color.parseColor("#FF000000"))
         }
         else
         {
-            return if (sec<10) {
-                "$min : 0${sec}"
-            } else {
-                "$min : $sec"
-            }
+            // 시간 선택창 보이게
+            binding.layoutTimepicker.visibility = View.VISIBLE
+            binding.layoutTimer.isInvisible=true
+            binding.numberMin.value =0
+            binding.numberSec.value =0
+        }
+    }
+    private fun toggleBtn(flag:Boolean)
+    {
+        if (flag)
+        {
+            // 시작 버튼 보이게
+            binding.btnStartTimer.visibility=View.VISIBLE
+            binding.btnStopTimer.isInvisible = true
+        }
+        else {
+            // 정지버튼 보이게
+            binding.btnStartTimer.isInvisible = true
+            binding.btnStopTimer.visibility=View.VISIBLE
         }
     }
 }
