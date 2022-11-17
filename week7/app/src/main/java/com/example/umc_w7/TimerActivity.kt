@@ -41,8 +41,7 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener{
 
         soundEnd = SoundPool.Builder().build()
         var soundId : Int =0
-
-        soundId =soundEnd.load(this,R.raw.sound3,1)
+        soundId =soundEnd.load(this,R.raw.mp3,1)
 
         setNumberPicker()
         with(binding)
@@ -63,6 +62,11 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener{
                 thread(start=true) {
                     while(started) {
                         progressTimer.progress = percent
+                        if (total == 0)
+                        {
+                            started = false
+                            soundEnd.play(soundId,1.0f,1.0f,0,-1,1.0f)
+                        }
                         if (total!=0) {
                             Log.e("summer","$total")
                             if (total < 5)
@@ -77,10 +81,6 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener{
                             handler?.sendEmptyMessage(0)
                             Thread.sleep(1000)
                         }
-                        else
-                        {
-                            soundEnd.play(soundId,1.0f,1.0f,0,0,1.0f)
-                        }
                     }
                 }
             }
@@ -90,6 +90,13 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener{
                     toggleBtn(true)
                     Log.e("summer","$started")
                 }
+            }
+            btnCancelTimer.setOnClickListener {
+                total=0
+                started = false
+                toggleView(false)
+                toggleBtn(true)
+                soundEnd.stop(soundEnd.play(soundId,1.0f,1.0f,1,0,1.0f))
             }
         }
     }
@@ -101,12 +108,6 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener{
             R.id.btn_picker_start-> {
                 toggleView(true)
                 binding.tvTime.text = "${String.format("%02d",total/60)} : ${String.format("%02d",total%60)}"
-            }
-            R.id.btn_cancel_timer -> {
-                total=0
-                started = false
-                toggleView(false)
-                toggleBtn(true)
             }
         }
     }
