@@ -15,10 +15,10 @@ import kotlin.concurrent.thread
 
 class TimerActivity : AppCompatActivity(), View.OnClickListener{
 
-    private lateinit var binding:ActivityTimerBinding
+    private lateinit var binding: ActivityTimerBinding
     private var started = false
     private var total =0
-    private var percent =0
+    var percent =0
     private lateinit var soundEnd:SoundPool
 
     val handler = object:Handler(Looper.getMainLooper())
@@ -48,6 +48,7 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener{
         {
             numberMin.setOnValueChangedListener(NumberPicker.OnValueChangeListener { numberPicker, old, new ->
                 pickedMin = new
+                total = pickedMin*60+pickedSec
             })
             numberSec.setOnValueChangedListener(NumberPicker.OnValueChangeListener { numberPicker, old, new ->
                 pickedSec = new
@@ -56,30 +57,28 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener{
             btnStartTimer.setOnClickListener {
                 started = true
                 toggleBtn(false)
-
-                progressTimer.max =  pickedMin*60+pickedSec
-
                 thread(start=true) {
+                    binding.progressTimer.max = total
                     while(started) {
-                        progressTimer.progress = percent
                         if (total == 0)
                         {
                             started = false
                             soundEnd.play(soundId,1.0f,1.0f,0,-1,1.0f)
                         }
                         if (total!=0) {
+                            progressTimer.incrementProgressBy(1)
+                            Log.e("summer","progress : ${progressTimer.progress}")
                             Log.e("summer","$total")
-                            if (total < 5)
+                            if (total <= 3)
                             {
                                 tvTime.setTextColor(Color.parseColor("#FF0000"))
                             }
                             else {
                                 tvTime.setTextColor(Color.parseColor("#FF000000"))
                             }
-                            total--
-                            percent++
-                            handler?.sendEmptyMessage(0)
                             Thread.sleep(1000)
+                            total--
+                            handler.sendEmptyMessage(0)
                         }
                     }
                 }
@@ -94,6 +93,7 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener{
             btnCancelTimer.setOnClickListener {
                 total=0
                 started = false
+                percent=0
                 toggleView(false)
                 toggleBtn(true)
                 soundEnd.stop(soundEnd.play(soundId,1.0f,1.0f,1,0,1.0f))
@@ -137,12 +137,15 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener{
             binding.layoutTimepicker.isInvisible=true
             binding.layoutTimer.visibility = View.VISIBLE
             binding.tvTime.setTextColor(Color.parseColor("#FF000000"))
+            binding.progressTimer.visibility=View.VISIBLE
         }
         else
         {
             // 시간 선택창 보이게
             binding.layoutTimepicker.visibility = View.VISIBLE
             binding.layoutTimer.isInvisible=true
+            binding.progressTimer.isInvisible=true
+            binding.progressTimer.progress=0
             binding.numberMin.value =0
             binding.numberSec.value =0
         }
