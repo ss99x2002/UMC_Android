@@ -14,11 +14,14 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.example.assignment4.R
 import com.example.assignment4.databinding.ActivityMemoBinding
 import com.example.assignment4.databinding.DialogConfirmBinding
 import com.example.assignment4.databinding.DialogPaletteBinding
+import com.example.assignment4.databinding.FragmentHomeBinding
 import com.example.assignment4.ui.dialog.CustomDialog
 import com.example.assignment4.ui.dialog.CustomPaletteDialog
 import java.time.LocalDate
@@ -30,6 +33,7 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
     private lateinit var titleVar: Editable
     private var MODIFY:Int = 0
     private var colorString :String ="#FF000000"
+    private var favorite : Boolean = false
     private var colorInt : Int = Color.parseColor(colorString)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +50,14 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                         etMemo.setText(intent.getStringExtra("note"))
                         tvDay.text = LocalDate.now().toString()
                         etTitle.setTextColor(Color.parseColor(intent.getStringExtra("color")))
+                        favorite = intent.getBooleanExtra("favorite",false)
+                        if (favorite)
+                        {
+                            toggleFavorite(true)
+                        }
+                        else {
+                         toggleFavorite(false)
+                        }
                         MODIFY=1
                     }
                  else {
@@ -71,6 +83,16 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                 }
                 R.id.btn_palette->{
                     showPalette()
+                }
+                R.id.layout_star-> {
+                    if (btnFalseStar.isVisible)
+                    {
+                       toggleFavorite(true)
+                    }
+                    else
+                    {
+                        toggleFavorite(false)
+                    }
                 }
             }
         }
@@ -146,14 +168,15 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                 this.dialog = CustomDialog(this@MemoActivity, root, "메모를 저장하시겠습니까?").apply {
                     this.setClickListener(object : CustomDialog.DialogClickListener {
                         override fun onConfirm() {
-                            Log.e("summer", "save dialog on Confirm으로 들어옴")
+                            Log.e("summer", "save dialog onConfirm 로 들어옴")
                             val mIntent =
-                                Intent(this@MemoActivity, MemoListActivity::class.java).apply {
+                                Intent(this@MemoActivity, FragmentHomeBinding::class.java).apply {
                                     putExtra("modify",MODIFY)
                                     putExtra("title", "${etTitle.text}")
                                     putExtra("note", "${etMemo.text}")
                                     putExtra("day", "${tvDay.text}")
                                     putExtra("color",colorString)
+                                    putExtra("favorite",favorite)
                                     Log.e("summer","${tvDay.text}")
                                 }
                             setResult(RESULT_OK, mIntent)
@@ -169,6 +192,7 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
             }
         }
     }
+
     private fun showPalette()
     {
         with(binding)
@@ -236,5 +260,23 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
 
                 }
             }
+    }
+
+    private fun toggleFavorite(star : Boolean)
+    {
+        // black->yellow
+        if (star)
+        {
+            binding.btnFalseStar.isInvisible=true
+            binding.btnTrueStar.visibility = View.VISIBLE
+            favorite=true
+        }
+        // yellow->black
+        else
+        {
+            binding.btnTrueStar.isInvisible=true
+            binding.btnFalseStar.visibility = View.VISIBLE
+            favorite=false
+        }
     }
 }

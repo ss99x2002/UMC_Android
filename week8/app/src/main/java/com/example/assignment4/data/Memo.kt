@@ -7,7 +7,8 @@ data class Memo(
     val title:String?,
     val note:String?,
     val day:String?,
-    val color:String?
+    val color:String?,
+    val favorite:Boolean?
 )
 data class Color(
     val color:String

@@ -73,7 +73,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="4dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -96,6 +96,47 @@
                 app:layout_constraintStart_toEndOf="@id/btn_day"
                 android:layout_marginStart="10dp"
                 android:hint="@string/day"/>
+
+
+            <TextView
+                android:id="@+id/tv_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/btn_day"
+                app:layout_constraintBottom_toBottomOf="@id/btn_day"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/layout_star"
+                android:layout_marginEnd="10dp"
+                android:text="@string/favorite"/>
+
+
+            <FrameLayout
+                android:id="@+id/layout_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="onClick">
+
+                <ImageView
+                    android:id="@+id/btn_false_star"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_blackstar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <ImageView
+                    android:id="@+id/btn_true_star"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_yellowstar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:visibility="invisible"/>
+            </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

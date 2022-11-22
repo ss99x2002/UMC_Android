@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.assignment4.R
+import com.example.assignment4.data.Nickname
 import com.example.assignment4.databinding.ActivityNicknameBinding
 
 class NicknameActivity : AppCompatActivity(), View.OnClickListener{
@@ -32,7 +33,7 @@ class NicknameActivity : AppCompatActivity(), View.OnClickListener{
                     else
                     {
                         Nickname.setNickName(etNickname.text.toString())
-                        val intent = Intent(this@NicknameActivity,MemoListActivity::class.java)
+                        val intent = Intent(this@NicknameActivity,MainActivity::class.java)
                         startActivity(intent)
                     }
                 }
