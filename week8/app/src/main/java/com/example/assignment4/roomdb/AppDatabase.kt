@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [MemoData::class],version =1)
 abstract class AppDatabase : RoomDatabase() {
+    abstract fun memoDao() :MemoDao
     companion object{
         private var appDatabase : AppDatabase? = null
-
         @Synchronized
         fun getInstance (context: Context) : AppDatabase? {
             if (appDatabase == null)

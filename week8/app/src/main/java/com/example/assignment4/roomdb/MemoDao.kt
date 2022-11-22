@@ -20,10 +20,12 @@ interface MemoDao {
 
     // 메모 전체
     @Query("SELECT * FROM MemoData")
-    fun selectAllMemo()
+    fun selectAllMemo() : MutableList<MemoData>
+
+    @Query("SELECT * FROM MemoData WHERE memoId=:memoId")
+    fun selectOneMemo(memoId:Int) : MemoData
 
     //메모 내용 수정 및 즐겨찾기 등 . .
     @Query("UPDATE MemoData SET title = :title, content = :content, day = :day, color = :color, favorite = :favorite WHERE memoId=:memoId")
     fun updateMemo(memoId:Int,title:String?,content:String?,day:String?,color:String?,favorite:Boolean)
-
 }

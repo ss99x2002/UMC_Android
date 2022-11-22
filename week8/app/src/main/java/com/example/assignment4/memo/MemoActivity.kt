@@ -22,6 +22,8 @@ import com.example.assignment4.databinding.ActivityMemoBinding
 import com.example.assignment4.databinding.DialogConfirmBinding
 import com.example.assignment4.databinding.DialogPaletteBinding
 import com.example.assignment4.databinding.FragmentHomeBinding
+import com.example.assignment4.roomdb.AppDatabase
+import com.example.assignment4.roomdb.MemoData
 import com.example.assignment4.ui.dialog.CustomDialog
 import com.example.assignment4.ui.dialog.CustomPaletteDialog
 import java.time.LocalDate
@@ -31,26 +33,35 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
     private lateinit var binding: ActivityMemoBinding
     private lateinit var textVar: Editable
     private lateinit var titleVar: Editable
+    private lateinit var roomDB: AppDatabase
     private var MODIFY:Int = 0
     private var colorString :String ="#FF000000"
     private var favorite : Boolean = false
-    private var colorInt : Int = Color.parseColor(colorString)
+    private var memoId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_memo)
         setContentView(binding.root)
+        roomDB = AppDatabase.getInstance(this@MemoActivity)!!
         onBackPressedDispatcher.addCallback(this,onBackInvokedCallback)
         Log.e("summer","memo activity 시작")
         with(binding)
         {
                  if (intent.getStringExtra("intent")!=null) {
                         Log.e("summer","modify 진입")
-                        etTitle.setText(intent.getStringExtra("title"))
-                        etMemo.setText(intent.getStringExtra("note"))
-                        tvDay.text = LocalDate.now().toString()
-                        etTitle.setTextColor(Color.parseColor(intent.getStringExtra("color")))
-                        favorite = intent.getBooleanExtra("favorite",false)
+                     memoId = intent.getIntExtra("memoId",-1)
+                     Log.e("memoid","${memoId}")
+                     if (memoId != -1)
+                     {
+                         Log.e("room db안 값","${roomDB.memoDao().selectOneMemo(memoId)}")
+                         etTitle.setText(roomDB.memoDao().selectOneMemo(memoId).title)
+                         etMemo.setText(roomDB.memoDao().selectOneMemo(memoId).content)
+                         tvDay.text = LocalDate.now().toString()
+                         etTitle.setTextColor(Color.parseColor(roomDB.memoDao().selectOneMemo(memoId).color))
+                         favorite = roomDB.memoDao().selectOneMemo(memoId).favorite
+                         colorString = roomDB.memoDao().selectOneMemo(memoId).color!!
+                     }
                         if (favorite)
                         {
                             toggleFavorite(true)
@@ -177,12 +188,21 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
                                     putExtra("day", "${tvDay.text}")
                                     putExtra("color",colorString)
                                     putExtra("favorite",favorite)
-                                    Log.e("summer","${tvDay.text}")
+                                    if(memoId!=-1)
+                                    {
+                                        roomDB.memoDao().updateMemo(memoId,"${etTitle.text}","${etMemo.text}","${tvDay.text}",colorString,favorite)
+                                        putExtra("memoId",memoId)
+                                    }
+                                    else
+                                    {
+                                        Log.e("추가로 들어옴","true")
+                                        roomDB.memoDao().insert(MemoData("${etTitle.text}","${etMemo.text}","${tvDay.text}",colorString,favorite))
+                                        Log.e("모든 값","${roomDB.memoDao().selectAllMemo()}")
+                                    }
                                 }
                             setResult(RESULT_OK, mIntent)
                             if (!isFinishing) finish()
                         }
-
                         override fun onClose() {
                             Log.e("summer", "save dialog onClose로 들어옴")
                         }

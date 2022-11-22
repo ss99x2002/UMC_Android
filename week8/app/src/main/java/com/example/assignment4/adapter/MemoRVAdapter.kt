@@ -1,5 +1,7 @@
 package com.example.assignment4.adapter
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.util.Log
@@ -13,30 +15,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.assignment4.R
 import com.example.assignment4.data.Memo
 import com.example.assignment4.databinding.ItemMemoBinding
-import kotlin.coroutines.coroutineContext
+import com.example.assignment4.roomdb.AppDatabase
+import com.example.assignment4.roomdb.MemoData
 
-class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter<MemoRVAdapter.MemoViewHolder>() {
+class MemoRVAdapter(private val dataList:List<MemoData>) : RecyclerView.Adapter<MemoRVAdapter.MemoViewHolder>() {
 
     //ViewHolder 객체
     inner class MemoViewHolder (val binding: ItemMemoBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Memo)
+        fun bind(data:MemoData)
         {
             with(binding)
             {
                 tvTitle.text= data.title
                 tvTitle.setTextColor(Color.parseColor(data.color!!))
-                if (data.note!!.contains("\n"))
+                if (data.content!!.contains("\n"))
                 {
                     Log.e("줄바꿈 존재","true")
-                    tvContent.text = data.note?.substring(0,data.note!!.indexOf("\n")-1) +"…"
+                    tvContent.text = data.content?.substring(0,data.content!!.indexOf("\n")-1) +"…"
                 }
                 else{
-                    if(data.note!!.length<15)
+                    if(data.content!!.length<15)
                     {
-                        tvContent.text = data.note
+                        tvContent.text = data.content
                     }
                     else{
-                        tvContent.text= data.note?.substring(0,15) + "…"
+                        tvContent.text= data.content?.substring(0,15) + "…"
                     }
                 }
                 tvDay.text=data.day
@@ -47,6 +50,7 @@ class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter
     //리스너 인터페이스
     interface OnItemClickListener {
         fun onClick(v : View, position:Int)
+        fun onDelete(v:View,position:Int)
     }
 
     //외부에서 클릭 시 발생 할 이벤트 설정
@@ -64,10 +68,11 @@ class MemoRVAdapter(private val dataList:ArrayList<Memo>) : RecyclerView.Adapter
     }
 
     //ViewHolder가 실제로 데이터를 표시해야 할 때 호출되는 함수
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: MemoViewHolder, position: Int) {
         holder.bind(dataList[position])
         holder.binding.icDelete.setOnClickListener {
-            dataList.remove(dataList[position])
+            itemClickListener.onDelete(it,position)
             notifyDataSetChanged()
         }
         holder.itemView.setOnClickListener {
