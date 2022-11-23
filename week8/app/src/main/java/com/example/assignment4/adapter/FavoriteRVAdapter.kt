@@ -10,7 +10,7 @@ import com.example.assignment4.databinding.ItemFavoriteBinding
 import com.example.assignment4.databinding.ItemMemoBinding
 import com.example.assignment4.roomdb.MemoData
 
-class FavoriteRVAdapter (private val favList :List<MemoData>): RecyclerView.Adapter<FavoriteRVAdapter.FavViewHolder>()  {
+class FavoriteRVAdapter (private val favList :MutableList<MemoData>): RecyclerView.Adapter<FavoriteRVAdapter.FavViewHolder>()  {
     inner class FavViewHolder(val binding: ItemFavoriteBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data:MemoData)
         {

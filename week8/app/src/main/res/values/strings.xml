@@ -15,6 +15,7 @@
     <string name="edit_title">Title</string>
     <string name="palette_title">글자색을 선택하세요!</string>
     <string name="favorite">즐겨찾기</string>
+    <string name="like">좋아요</string>
 
     <!-- bottom nav-->
     <string name="home">홈</string>
