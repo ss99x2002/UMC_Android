@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".data.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -22,8 +23,6 @@
         <activity android:name=".memo.MainActivity">
         </activity>
         <activity android:name=".memo.NicknameActivity">
-        </activity>
-        <activity android:name=".memo.MemoListActivity">
         </activity>
         <activity android:name=".memo.NextActivity">
         </activity>

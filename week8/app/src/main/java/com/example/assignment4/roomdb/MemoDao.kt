@@ -28,4 +28,7 @@ interface MemoDao {
     //메모 내용 수정 및 즐겨찾기 등 . .
     @Query("UPDATE MemoData SET title = :title, content = :content, day = :day, color = :color, favorite = :favorite WHERE memoId=:memoId")
     fun updateMemo(memoId:Int,title:String?,content:String?,day:String?,color:String?,favorite:Boolean)
+
+    @Query("SELECT * FROM MemoData WHERE favorite=:favorite")
+    fun selectFavorite(favorite: Boolean) : MutableList<MemoData>
 }
