@@ -213,6 +213,10 @@ class MemoActivity: AppCompatActivity() ,View.OnClickListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
     private fun showPalette()
     {
         with(binding)

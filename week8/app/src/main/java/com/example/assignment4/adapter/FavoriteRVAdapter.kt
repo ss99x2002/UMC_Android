@@ -40,12 +40,12 @@ class FavoriteRVAdapter (private val favList :MutableList<MemoData>): RecyclerVi
         fun onClick(v : View, position:Int)
     }
 
-    fun setItemClickListener(onItemClickListener: FavoriteRVAdapter.OnItemClickListener)
+    fun setItemClickListener(onItemClickListener: OnItemClickListener)
     {
         this.itemClickListener = onItemClickListener
     }
 
-    private lateinit var itemClickListener : FavoriteRVAdapter.OnItemClickListener
+    private lateinit var itemClickListener : OnItemClickListener
     override fun onBindViewHolder(holder: FavViewHolder, position: Int) {
         holder.bind(favList[position])
         holder.itemView.setOnClickListener {
@@ -59,5 +59,9 @@ class FavoriteRVAdapter (private val favList :MutableList<MemoData>): RecyclerVi
     }
     override fun getItemCount(): Int {
         return favList.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return super.getItemId(position)
     }
 }

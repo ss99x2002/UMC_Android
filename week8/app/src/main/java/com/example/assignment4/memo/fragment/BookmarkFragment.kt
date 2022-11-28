@@ -68,7 +68,24 @@ class BookmarkFragment: Fragment(){
         }
         return binding.root
     }
-
+    override fun onResume() {
+        super.onResume()
+        setData()
+        val dataRVAdapter = FavoriteRVAdapter(dataList)
+        with(binding)
+        {
+            rvFavorite.layoutManager = LinearLayoutManager(context)
+            rvFavorite.adapter = dataRVAdapter.apply {
+                this.setItemClickListener(object : FavoriteRVAdapter.OnItemClickListener {
+                    @SuppressLint("NotifyDataSetChanged")
+                    override fun onClick(v: View, position: Int) {
+                        Log.e("summer", "onClick 함수 진입")
+                        modifyMemo(v, position)
+                    }
+                })
+            }
+        }
+    }
     private fun modifyMemo(v:View,position:Int)
     {
         Log.e("summer","modify 함수 진입")

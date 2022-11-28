@@ -101,7 +101,6 @@ class HomeFragment  : Fragment() {
         }
     }
 
-
     private fun modifyMemo(v:View,position:Int,mIntent:Intent)
     {
         Log.e("summer","modify 함수 진입")
