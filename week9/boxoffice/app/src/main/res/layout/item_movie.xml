@@ -6,12 +6,15 @@
     android:padding="20dp">
 
     <TextView
+        android:id="@+id/tv_rank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="순위"
         android:textStyle="bold"
-        android:textSize="24sp"/>
+        android:textSize="24sp"
+        android:background="@color/blue"/>
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="영화 제목"
@@ -27,6 +30,7 @@
             android:layout_height="wrap_content"
             android:text="개봉일: "/>
         <TextView
+            android:id="@+id/tv_oepn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="개봉 날짜"/>
@@ -41,6 +45,7 @@
             android:layout_height="wrap_content"
             android:text="누적관객수: "/>
         <TextView
+            android:id="@+id/tv_audi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="누적관객"/>
@@ -49,5 +54,5 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background=""/>
+        android:background="@color/black"/>
 </LinearLayout>
