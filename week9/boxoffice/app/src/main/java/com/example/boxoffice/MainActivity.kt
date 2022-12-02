@@ -20,7 +20,7 @@ import retrofit2.create
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val keyValue ="f5c3388d3a87c8e653dc464a0da37caf"
+    private val keyValue =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
