@@ -1,5 +1,5 @@
 
-# UMC-Android (Week4~8)
+# UMC-Android (week4~8)
 
 <h2>📝 BookNote : 메모 어플 </h2>
  
