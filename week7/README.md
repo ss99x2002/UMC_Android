@@ -13,3 +13,5 @@
 - 정지 버튼을 누른 후 다시 버튼을 클릭시 타이머가 재개됩니다.
 - Custom Progress bar를 통해 시간의 흐름을 가시적으로 볼 수 있습니다.
 - 타이머가 끝나면 Sound pool을 통해 효과음이 나도록 하였습니다.
+
+https://hyeonlog-developer.tistory.com/39
