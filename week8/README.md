@@ -1,11 +1,11 @@
 
 # UMC-Android (week4~8)
 
-<h2>📝 BookNote : 메모 어플 </h2>
+## 📝 BookNote : 메모 어플
  
 ![메모 어플 대표이미지](https://user-images.githubusercontent.com/70602631/209498597-5a5dd885-dbdd-49d1-8c0a-33daa90fea32.jpg)
 
-<h2> 기능 </h2>
+## 기능
 
 1. Splash
 - 앱 실행시 나오는 splash 화면입니다.
